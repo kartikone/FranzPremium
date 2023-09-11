@@ -1,0 +1,108 @@
+name: Build on PRs
+
+on:
+  pull_request:
+    branches:
+    - '**'
+
+env:
+  APPLEID: ${{ secrets.APPLEID }}
+  APPLEIDPASS: ${{ secrets.APPLEIDPASS }}
+  GH_TOKEN: ${{ secrets.FRANZ_TOKEN }}
+  CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+
+jobs:
+  windows:
+    runs-on: windows-2019
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+
+      - name: Set Current Version as Environment Variable
+        run: |
+          Foreach ($computer in jq -r .version package.json) {echo "VERSION=$computer" >> $env:GITHUB_ENV }
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.0
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm i -g lerna@3.8
+          npx lerna bootstrap
+
+      - name: Build App
+        run: npm run build
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-build-artifacts
+          path: |
+            out/*.exe
+            out/latest.yml
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+        with:
+            fetch-depth: 0
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.0
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm i -g lerna@3.8
+          npx lerna bootstrap
+
+      - name: Build App
+        run: npm run build
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-build-artifacts
+          path: |
+            out/*.AppImage
+            out/*.deb
+            out/latest-linux.yml
+
+  # macOS:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - name: Check out Git repository
+  #       uses: actions/checkout@v1
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Install Node.js, NPM and Yarn
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16.14.0
+  #         cache: "npm"
+
+  #     - name: Install dependencies
+  #       run: |
+  #         npm i -g lerna@3.8
+  #         npx lerna bootstrap
+
+  #     - name: Build App
+  #       run: npm run build
+
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: macOS-build-artifacts
+  #         path: |
+  #             out/*.dmg
+  #             out/*.mac.zip.blockmap
+  #             out/latest-mac.yml

@@ -17,7 +17,6 @@ import {
   DEFAULT_TODOS_WIDTH, TODOS_MIN_WIDTH, DEFAULT_TODOS_VISIBLE, TODOS_ROUTES, DEFAULT_IS_FEATURE_ENABLED_BY_USER,
 } from '.';
 import { IPC } from './constants';
-import { state as delayAppState } from '../delayApp';
 import {
   RESIZE_TODO_VIEW, TODOS_FETCH_WEB_CONTENTS_ID, TODOS_TOGGLE_DRAWER, TODOS_TOGGLE_ENABLE_TODOS,
 } from '../../ipcChannels';
@@ -55,7 +54,7 @@ export default class TodoStore extends FeatureStore {
 
   @computed get isTodosPanelForceHidden() {
     const { isAnnouncementShown } = this.stores.announcements;
-    return delayAppState.isDelayAppScreenVisible || !this.isFeatureEnabledByUser || isAnnouncementShown;
+    return !this.isFeatureEnabledByUser || isAnnouncementShown;
   }
 
   @computed get isTodosPanelVisible() {

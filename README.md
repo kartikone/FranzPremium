@@ -1,10 +1,8 @@
 <img src="./build-helpers/images/icon.png" alt="" width="150"/>
 
-# Franz 5
-[![Build status Windows](https://ci.appveyor.com/api/projects/status/9yman4ye19x4274o/branch/master?svg=true)](https://ci.appveyor.com/project/adlk/franz/branch/master)
- [![Build Status Mac & Linux](https://travis-ci.com/meetfranz/franz.svg?branch=master)](https://travis-ci.com/meetfranz/franz) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://meetfranz.com/payment.html)
+# Franz 5 (Premium) [![Build and Release](https://github.com/HackerShohag/FranzPremium/actions/workflows/main.yml/badge.svg)](https://github.com/HackerShohag/FranzPremium/actions/workflows/main.yml)
 
-Messaging app for WhatsApp, Slack, Telegram, HipChat, Hangouts and many many more.
+Messaging app for WhatsApp, Slack, Telegram, HipChat, Hangouts and many many more. Find the premium build in the artifacts section.
 
 ## [Download Franz](https://www.meetfranz.com)
 👉 www.meetfranz.com

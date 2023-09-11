@@ -2,7 +2,6 @@ import { observable, reaction } from 'mobx';
 import ms from 'ms';
 
 import { ipcRenderer } from 'electron';
-import { state as delayAppState } from '../delayApp';
 import { gaEvent, gaPage } from '../../lib/analytics';
 import { OVERLAY_OPEN, SHARE_FRANZ_GET_SERVICE_COUNT } from '../../ipcChannels';
 import { planSelectionStore } from '../planSelection';
@@ -48,12 +47,7 @@ export default function initialize(stores) {
     () => {
       setTimeout(() => {
         if (stores.settings.stats.appStarts % 50 === 0 && !planSelectionStore.showPlanSelectionOverlay) {
-          if (delayAppState.isDelayAppScreenVisible) {
-            debug('Delaying share modal by 5 minutes');
-            setTimeout(() => showModal(), ms('5m'));
-          } else {
-            showModal();
-          }
+          showModal();
         }
       }, ms('2s'));
     },
