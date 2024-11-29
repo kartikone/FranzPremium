@@ -326,6 +326,17 @@ const createWindow = () => {
       shell.openExternal(url);
     }
   });
+
+  // native window open sends 'new-window' events to the main process where it can be intercepted
+  mainWindow.webContents.on('did-attach-webview', (e, webContents) => {
+    webContents.on('new-window', (event, url, frameName) => {
+      debug('new-window', url);
+
+      if (!frameName) {
+        event.preventDefault();
+      }
+    });
+  });
 };
 
 // Allow passing command line parameters/switches to electron
